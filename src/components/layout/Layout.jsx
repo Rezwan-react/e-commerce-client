@@ -6,9 +6,11 @@ import Footer from '../footer/Footer'
 function Layout() {
     return (
         <>
-            <Navbar />
-            <Outlet />
-            <Footer />
+            <div className='container mx-auto'>
+                <Navbar />
+                <Outlet />
+                <Footer />
+            </div>
         </>
     )
 }

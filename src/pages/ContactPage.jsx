@@ -1,8 +1,11 @@
 import React from 'react'
+import GlobalBanner from '../components/globalBanner/GlobalBanner'
 
 function ContactPage() {
   return (
-    <div>ContactPage</div>
+    <>
+      <GlobalBanner title='Contact' />
+    </>
   )
 }
 

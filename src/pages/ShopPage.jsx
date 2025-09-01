@@ -1,8 +1,8 @@
 import React from 'react'
 import Filter from '../components/shop/Filter'
-import ProductsCard from '../components/ProductsCard/ProductsCard'
 import CategoryCard from '../components/shop/categoryCard'
 import GlobalBanner from '../components/globalBanner/GlobalBanner'
+import Pagination from '../components/shop/pagination'
 
 function ShopPage() {
   return (
@@ -10,7 +10,7 @@ function ShopPage() {
       <GlobalBanner title='Shop' />
       <Filter />
       <CategoryCard />
-      <ProductsCard />
+      <Pagination />
     </>
   )
 }

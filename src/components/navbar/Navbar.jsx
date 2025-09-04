@@ -1,4 +1,5 @@
 import React from 'react'
+import { CgProfile } from 'react-icons/cg'
 import { CiHeart, CiSearch, CiShoppingCart } from 'react-icons/ci'
 import { LiaUserEditSolid } from 'react-icons/lia'
 import { Link } from 'react-router'
@@ -21,7 +22,8 @@ function Navbar() {
                     </div>
                     <div>
                         <ul className='flex items-center gap-11 text-2xl'>
-                            <li><Link to='#'><LiaUserEditSolid /></Link></li>
+                            <li><Link to='/profile'><CgProfile /></Link></li>
+                            <li><Link to='/login'><LiaUserEditSolid /></Link></li>
                             <li><Link to='#'><CiSearch /></Link></li>
                             <li><Link to='#'><CiHeart /></Link></li>
                             <li><Link to='#'><CiShoppingCart /></Link></li>

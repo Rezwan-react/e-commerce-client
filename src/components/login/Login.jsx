@@ -1,46 +1,37 @@
 import React, { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { authServices } from "../../services/api";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { loggedUser } from "../../store/slices/authSlice";
 
 function Login() {
-    const [formData, setFormData] = useState({
+    const [showPassword, setShowPassword] = useState(false);
+    const navigate = useNavigate();
+    const dispatch = useDispatch()
+
+    const [loginData, setLoginData] = useState({
         email: "",
         password: "",
+
     });
 
-    const [errors, setErrors] = useState({});
-    const [showPassword, setShowPassword] = useState(false);
-
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
-
-    const validate = () => {
-        const newErrors = {};
-        if (!formData.email.trim()) {
-            newErrors.email = "Email is required";
-        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-            newErrors.email = "Email is invalid";
-        }
-
-        if (!formData.password) {
-            newErrors.password = "Password is required";
-        } else if (formData.password.length < 6) {
-            newErrors.password = "Password must be at least 6 characters";
-        }
-
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
-
-    const handleSubmit = (e) => {
+    //============================= handel function 
+    const handelLogin = async (e) => {
         e.preventDefault();
-        if (validate()) {
-            alert("Login Successful!");
-            setFormData({ email: "", password: "" });
-            setErrors({});
+        try {
+            const res = await authServices.loginUser(loginData)
+            toast.success(res.success);
+            dispatch(loggedUser(res.user));
+            setTimeout(() => {
+                navigate("/");
+            }, 2000);
+        } catch (error) {
+            toast.error(error.response.data.error);
         }
-    };
+
+    }
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-400 via-pink-400 to-indigo-500">
@@ -48,30 +39,28 @@ function Login() {
                 <h2 className="text-3xl font-extrabold mb-8 text-gray-800 text-center">
                     Login
                 </h2>
-                <form onSubmit={handleSubmit} className="space-y-5">
+                <form onSubmit={handelLogin} className="space-y-5">
                     {/* Email */}
                     <div>
                         <input
+                            onChange={(e) => setLoginData((prev) => ({ ...prev, email: e.target.value }))}
                             type="email"
                             name="email"
                             placeholder="Email"
-                            value={formData.email}
-                            onChange={handleChange}
+                            required
                             className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent transition"
                         />
-                        {errors.email && (
-                            <p className="text-red-500 mt-1 text-sm">{errors.email}</p>
-                        )}
+
                     </div>
 
                     {/* Password */}
                     <div className="relative">
                         <input
+                            onChange={(e) => setLoginData((prev) => ({ ...prev, password: e.target.value }))}
                             type={showPassword ? "text" : "password"}
                             name="password"
                             placeholder="Password"
-                            value={formData.password}
-                            onChange={handleChange}
+                            required
                             className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent transition"
                         />
                         <span
@@ -80,9 +69,7 @@ function Login() {
                         >
                             {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
                         </span>
-                        {errors.password && (
-                            <p className="text-red-500 mt-1 text-sm">{errors.password}</p>
-                        )}
+
                     </div>
 
                     {/* Submit */}

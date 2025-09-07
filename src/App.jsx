@@ -12,6 +12,8 @@ import ProfilePage from './pages/ProfilePage'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import OtpVerify from './components/otpverify/OtpVerify'
+import CardSidebar from './components/card/CardSidebar'
+import CheckoutPage from './pages/CheckoutPage'
 
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
           <Route path='about' element={<AboutPage />} />
           <Route path='contact' element={<ContactPage />} />
           <Route path='profile' element={<ProfilePage />} />
+          <Route path='cardSidebar' element={<CardSidebar />} />
+          <Route path='checkout' element={<CheckoutPage />} />
         </Route>
       </Routes>
 

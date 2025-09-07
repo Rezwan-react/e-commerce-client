@@ -4,9 +4,9 @@ import { authServices } from "../../services/api";
 export const updateUserData = createAsyncThunk(
     "/auth/update",
     async (userData) => {
-        const { fullName, password, avatar } = userData;
+        const { name, password, avatar } = userData;
         try {
-            const res = await authServices.updateUser(fullName, password, avatar);
+            const res = await authServices.updateUser(name, password, avatar);
             return res;
         } catch (error) {
             return Promise.reject(error);

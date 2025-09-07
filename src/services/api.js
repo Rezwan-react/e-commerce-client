@@ -8,6 +8,16 @@ const api = axios.create({
     },
 });
 
+api.interceptors.request.use((config) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+        config.headers.Authorization = token;
+    }
+    return config;
+}, (err) => {
+    return Promise.reject(err);
+})
+
 // ============================== authServices part start
 export const authServices = {
     registration: async (userData) => {
@@ -26,12 +36,19 @@ export const authServices = {
         }
         return res.data;
     },
-    updateUser: async (fullName, password, avatar) => {
-        const res = await api.post("/auth/update", { fullName, password, avatar }, {
+    updateUser: async (name, password, avatar) => {
+        const res = await api.post("/auth/update", { name, password, avatar }, {
             headers: {
                 "Content-Type": "multipart/form-data",
             },
         })
+        return res.data;
+    },
+};
+
+export const categoryServices = {
+    categoryList: async (slug) => {
+        const res = await api.get(`/product/categories`);
         return res.data;
     },
 };
